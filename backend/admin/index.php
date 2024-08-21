@@ -54,6 +54,36 @@ check_user_role("admin");
         ***********************************-->
         <?php
         include('parts/sidebar.php');
+        include('parts/connection.php');
+        include('parts/connection.php');
+        include('parts/connection.php');
+        include('parts/connection.php');
+        include('parts/connection.php');
+        $sql = "SELECT COUNT(*) AS instructor_count FROM instructors";
+        $result = $conn->query($sql);
+        $instructor = $result->fetch_assoc();
+
+        $sql = "SELECT COUNT(*) AS student_count FROM students";
+        $result = $conn->query($sql);
+        $student = $result->fetch_assoc();
+
+        $sql = "SELECT COUNT(*) AS courses_count FROM courses";
+        $result = $conn->query($sql);
+        $courses = $result->fetch_assoc();
+
+        $sql = "SELECT COUNT(*) AS enrollments_count FROM enrollments";
+        $result = $conn->query($sql);
+        $enrollments = $result->fetch_assoc();
+
+        $sql = "SELECT COUNT(*) AS subjects_count FROM subjects";
+        $result = $conn->query($sql);
+        $subjects = $result->fetch_assoc();
+
+        $sql = "SELECT COUNT(*) AS lectures_count FROM lectures";
+        $result = $conn->query($sql);
+        $lectures = $result->fetch_assoc();
+
+
         ?>
         <!--**********************************
             Sidebar end
@@ -62,6 +92,8 @@ check_user_role("admin");
         <!--**********************************
             Content body start
         ***********************************-->
+
+
         <div class="content-body">
 
             <div class="container-fluid mt-3">
@@ -69,34 +101,63 @@ check_user_role("admin");
                     <div class="col-lg-3 col-sm-6">
                         <div class="card gradient-1">
                             <div class="card-body">
-                                <h3 class="card-title text-white">Products Sold</h3>
+                                <h3 class="card-title text-white">Instructors</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">4565</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                    <h2 class="text-white"><?php echo $instructor['instructor_count'] ?></h2>
+                                    <p class="text-white mb-0">-</p>
                                 </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="card gradient-2">
                             <div class="card-body">
-                                <h3 class="card-title text-white">Net Profit</h3>
+                                <h3 class="card-title text-white">Students</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">$ 8541</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                    <h2 class="text-white"><?php echo $student['student_count'] ?></h2>
+                                    <p class="text-white mb-0">-</p>
                                 </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
                             </div>
                         </div>
                     </div>
+                    
+                    
+
                     <div class="col-lg-3 col-sm-6">
-                        <div class="card gradient-3">
+                        <div class="card gradient-4">
                             <div class="card-body">
-                                <h3 class="card-title text-white">New Customers</h3>
+                                <h3 class="card-title text-white">Courses</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">4565</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                    <h2 class="text-white"><?php echo $courses['courses_count'] ?></h2>
+                                    <p class="text-white mb-0">-</p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card gradient-4">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Enrollments</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white"><?php echo $enrollments['enrollments_count'] ?></h2>
+                                    <p class="text-white mb-0">-</p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card gradient-4">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Subjects</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white"><?php echo $subjects['subjects_count'] ?></h2>
+                                    <p class="text-white mb-0">-</p>
                                 </div>
                                 <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
                             </div>
@@ -105,20 +166,19 @@ check_user_role("admin");
                     <div class="col-lg-3 col-sm-6">
                         <div class="card gradient-4">
                             <div class="card-body">
-                                <h3 class="card-title text-white">Customer Satisfaction</h3>
+                                <h3 class="card-title text-white">Lectures</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">99%</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                    <h2 class="text-white"><?php echo $lectures['lectures_count'] ?></h2>
+                                    <p class="text-white mb-0">-</p>
                                 </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                    
 
-
-                <div class="row">
+<div class="row">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">

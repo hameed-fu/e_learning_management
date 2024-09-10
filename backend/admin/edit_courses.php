@@ -152,18 +152,20 @@ if(isset($_POST['save'])){
                                     </div>
                                     <div class="form-group">
                                         <label for="name">Start Date</label>
-                                        <input min="<?php echo date('Y-m-d') ?>" type="date" class="form-control" value="<?php echo $row['start_date'] ?>" id="phone" name="start_date">
+                                        <input min="<?php echo date('Y-m-d') ?>" type="date" class="form-control" value="<?php echo $row['start_date'] ?>" id="start_date" name="start_date">
                                          
                                     </div>
                                     <div class="form-group">
                                         <label for="name">End date</label>
-                                        <input  min="<?php echo date('Y-m-d') ?>" type="date" class="form-control" value="<?php echo $row['end_date'] ?>" id="phone" name="end_date">
+                                        <input  min="<?php echo date('Y-m-d') ?>" type="date" class="form-control" value="<?php echo $row['end_date'] ?>" id="end_date" name="end_date">
                                          
                                     </div>
+
+                                    <div id="errorMsg" style="color:red;"></div>
                                     <input type="hidden" value="<?php echo $row['course_id'] ?>" name="course_id">
                                    
                                     
-                                    <button type="submit" name="save" class="btn btn-primary">Submit</button>
+                                    <button type="submit" name="save" id="btn_save" class="btn btn-primary">Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -195,6 +197,23 @@ if(isset($_POST['save'])){
     ***********************************-->
     <?php include ('parts/script.php') ?>
 
+    <script>
+        $(document).ready(function () {
+            $('#start_date, #end_date').on('change', function () {
+                let startDate = $('#start_date').val();
+                let endDate = $('#end_date').val();
+
+
+                if (new Date(startDate) > new Date(endDate)) {
+                    $('#errorMsg').text('Start date must be less than or equal to the end date.');
+                    $('#btn_save').attr('disabled', true);
+                } else {
+                    $('#errorMsg').text('');
+                    $('#btn_save').attr('disabled', false); 
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

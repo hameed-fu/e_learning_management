@@ -1,4 +1,4 @@
-<?php 
+<?php
 include 'session_check.php';
 check_user_role("admin");
 ?>
@@ -6,27 +6,27 @@ check_user_role("admin");
 <html lang="en">
 
 <?php
- 
-include ('parts/head.php');
- ?>
+
+include('parts/head.php');
+?>
 
 
 <?php
-include ('parts/connection.php');
+include('parts/connection.php');
 
-if(isset($_POST['save'])){
+if (isset($_POST['save'])) {
     $course_name = $_POST['course_name'];
     $course_description = $_POST['course_description'];
     $number_of_students = $_POST['number_of_students'];
     $category_id = $_POST['category_id'];
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
-    
 
-    
+
+
     $sql = "INSERT INTO courses(course_name, course_description,category_id,number_of_students,start_date,end_date) values('$course_name','$course_description',' $category_id','$number_of_students','$start_date','$end_date')";
     $state = $conn->query($sql);
-    if($state){
+    if ($state) {
         //echo "record added successfully";
         header("Location: courses.php");
     }
@@ -79,7 +79,7 @@ if(isset($_POST['save'])){
         ***********************************-->
         <?php
 
-        include ('parts/header.php')
+        include('parts/header.php')
             ?>
         <!--**********************************
             Header end ti-comment-alt
@@ -89,7 +89,7 @@ if(isset($_POST['save'])){
             Sidebar start
         ***********************************-->
         <?php
-        include ('parts/sidebar.php');
+        include('parts/sidebar.php');
         ?>
         <!--**********************************
             Sidebar end
@@ -108,52 +108,58 @@ if(isset($_POST['save'])){
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title"></h4>
-                            
+
                                 <form method="post" action="">
                                     <div class="form-group">
                                         <label for="name">Course Name</label>
                                         <input type="text" class="form-control" id="name" name="course_name">
-                                         
+
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Number Of Students</label>
-                                        <input type="text" name="number_of_students" class="form-control"  id="">
+                                        <input type="text" name="number_of_students" class="form-control" id="">
                                     </div>
-                                   
+
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Category</label>
 
-                                        <?php 
+                                        <?php
 
-                                            $sql = "SELECT * FROM categories";
-                                            // runt the above query
-                                            $result = $conn->query($sql);
+                                        $sql = "SELECT * FROM categories";
+                                        // runt the above query
+                                        $result = $conn->query($sql);
 
                                         ?>
                                         <select name="category_id" class="form-control">
                                             <option>Please Select</option>
-                                            <?php while($row = $result->fetch_assoc()){ ?>
-                                                <option value="<?php echo $row['category_id'] ?>"><?php echo $row['category_name'] ?></option>
+                                            <?php while ($row = $result->fetch_assoc()) { ?>
+                                                <option value="<?php echo $row['category_id'] ?>">
+                                                    <?php echo $row['category_name'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="name"> Start Date</label>
-                                        <input min="<?php echo date('Y-m-d') ?>" value="<?php echo date('Y-m-d') ?>" type="date" class="form-control" id="name" name="start_date">
-                                         
+                                        <input min="<?php echo date('Y-m-d') ?>" value="<?php echo date('Y-m-d') ?>"
+                                            type="date" class="form-control" id="name" name="start_date">
+
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">End Date</label>
-                                        <input min="<?php echo date('Y-m-d') ?>" value="<?php echo date('Y-m-d') ?>" type="date" name="end_date" class="form-control"  id="">
+                                        <label for="start_date">Start Date</label>
+                                        <input min="<?php echo date('Y-m-d') ?>" value="<?php echo date('Y-m-d') ?>"
+                                            type="date" name="start_date" class="form-control" id="start_date">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Course Description</label>
-                                        <textarea name="course_description" class="form-control"  id=""></textarea>
+                                        <label for="end_date">End Date</label>
+                                        <input min="<?php echo date('Y-m-d') ?>" value="<?php echo date('Y-m-d') ?>"
+                                            type="date" name="end_date" class="form-control" id="end_date">
                                     </div>
-                                    
-                                    <button type="submit" name="save" class="btn btn-primary">Submit</button>
+
+                                    <div id="errorMsg" style="color:red;"></div>
+
+                                    <button type="submit" name="save" id="btn_save" class="btn btn-primary">Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -179,12 +185,31 @@ if(isset($_POST['save'])){
     <!--**********************************
         Main wrapper endd
     ***********************************-->
-    <?php include ('parts/footer.php') ?>
+    <?php include('parts/footer.php') ?>
     <!--**********************************
         Scripts
     ***********************************-->
-    <?php include ('parts/script.php') ?>
+    <?php include('parts/script.php') ?>
 
+
+ 
+    <script>
+        $(document).ready(function () {
+            $('#start_date, #end_date').on('change', function () {
+                let startDate = $('#start_date').val();
+                let endDate = $('#end_date').val();
+
+
+                if (new Date(startDate) > new Date(endDate)) {
+                    $('#errorMsg').text('Start date must be less than or equal to the end date.');
+                    $('#btn_save').attr('disabled', true);
+                } else {
+                    $('#errorMsg').text('');
+                    $('#btn_save').attr('disabled', false); 
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

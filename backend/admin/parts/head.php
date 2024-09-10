@@ -17,4 +17,24 @@
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.12/build/css/intlTelInput.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.12/build/js/intlTelInput.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var input = document.querySelector("#phone_no");
+            var iti = window.intlTelInput(input, {
+                initialCountry: "pk",
+                separateDialCode: true,
+                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.12/build/js/utils.js",
+
+            });
+
+            // store the instance variable so we can access it in the console e.g. window.iti.getNumber()
+            window.iti = iti;
+
+            // Rest of your script...
+        });
+    </script>
+
 </head>

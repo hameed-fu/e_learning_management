@@ -86,53 +86,68 @@ include('parts/connection.php');
 
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card ">
                             <div class="card-body">
                                 <h4 class="card-title">Comments</h4>
-                                <table class="table table-hover table-striped">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>User</th>
-                                        <th>Lecture</th>
-                                        <th>Comments</th>
-                                        <th>Date / Time</th>
-                                    </tr>
-                                    <?php
-                                    // select data from categories table
-                                    $sql = "SELECT comments.*, students.first_name, students.last_name, lectures.title
-                                    FROM comments
-                                    JOIN students ON comments.user_id = students.id
-                                    JOIN lectures ON comments.lecture_id = lectures.lecture_id";
-                                    // runt the above query
-                                    $result = $conn->query($sql);
-                                    while ($row = $result->fetch_assoc()) { ?>
+                                <?php
+// Select data from comments, students, and lectures table
+$sql = "SELECT comments.*, students.first_name, students.last_name, lectures.title
+        FROM comments
+        JOIN students ON comments.user_id = students.id
+        JOIN lectures ON comments.lecture_id = lectures.lecture_id
+        ORDER BY lectures.lecture_id, comments.created_at ASC"; // Group by lecture and sort by date
 
-                                        <tr>
-                                            <td><?php echo  $row['comment_id'] ?></td>
-                                            <td><?php echo $row['first_name'] ." ". $row['last_name'] ?></td>
-                                            <td><?php echo $row['title'] ?></td>
-                                            <td><?php echo $row['comments'] ?></td>
-                                            <td><?php echo $row['created_at'] ?></td>
-                                            
+// Run the query
+$result = $conn->query($sql);
 
+// Initialize a variable to track the current lecture
+$current_lecture = null;
 
+while ($row = $result->fetch_assoc()) {
+    // Check if the lecture has changed
+    if ($current_lecture !== $row['lecture_id']) {
+        // If it's a new lecture, close the previous collapse (if any) and start a new one
+        if ($current_lecture !== null) {
+            echo '</div>'; // Close the collapse content
+            echo '</div>'; // Close the previous card
+        }
 
+        // Create a unique ID for the collapsible section
+        $collapseId = 'collapse_' . $row['lecture_id'];
 
-                                            <!-- <td>
-                                                <a class="btn btn-warning text-white">Edit</a>
-                                                <a class="btn btn-danger text-white">Delete</a>
+        // Output the lecture title with a toggle button for collapse
+        echo '<div class="card mt-3">';
+        echo '<div class="card gradient-7  p-2 text-white">';
+        echo '<h5 class="mb-0">';
+        echo '<a class="text-white" data-toggle="collapse" href="#' . $collapseId . '" role="button" aria-expanded="false" aria-controls="' . $collapseId . '">';
+        echo $row['title']; // Lecture title
+        echo '</a>';
+        echo '</h5>';
+        echo '</div>';
 
-                                            </td> -->
-                                        </tr>
+        // Collapsible section for comments
+        echo '<div id="' . $collapseId . '" class="collapse">';
+        echo '<div class="card-body">';
+        
+        // Update the current lecture
+        $current_lecture = $row['lecture_id'];
+    }
 
-                                    <?php } ?>
+    // Output the comments for the current lecture
+    echo '<div class="card mt-2">';
+    echo '<div class="card-body">';
+    echo '<h6><strong>' . $row['first_name'] . ' ' . $row['last_name'] . '</strong> <small class="text-muted">(' . date('F j, Y, g:i a', strtotime($row['created_at'])) . ')</small></h6>';
+    echo '<p class="mb-0">' . $row['comments'] . '</p>';
+    echo '</div>';
+    echo '</div>';
+}
+ 
+?>
 
-
-                                </table>
                             </div>
                         </div>
                     </div>
-                </div>
+                    </div>
 
             </div>
             <!-- #/ container -->

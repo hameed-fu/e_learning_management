@@ -124,9 +124,9 @@ if(isset($_POST['save'])){
                                         <input type="password" class="form-control" id="name" name="password">
                                          
                                     </div>
+                                    <label for="name">Phone Number</label>
                                     <div class="form-group">
-                                        <label for="name">Phone Number</label>
-                                        <input type="text" class="form-control" id="phone" name="phone">
+                                        <input type="text" class="form-control" id="phone_no" style="width:100%" name="phone">
                                          
                                     </div>
                                    

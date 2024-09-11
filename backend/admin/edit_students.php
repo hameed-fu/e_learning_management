@@ -130,7 +130,7 @@ if(isset($_POST['save'])){
                                     
                                     <div class="form-group">
                                         <label for="name">Phone Number</label>
-                                        <input type="text" class="form-control" value="<?php echo $row['phone'] ?>" id="phone" name="phone">
+                                        <input type="text" class="form-control" value="<?php echo $row['phone'] ?>" id="phone_no" name="phone">
                                          
                                     </div>
     
